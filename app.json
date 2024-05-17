@@ -12,14 +12,40 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.rolstenhouse.puffin2",
+      "infoPlist": {
+        "UIBackgroundModes": ["voip"]
+      }
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.rolstenhouse.puffin2"
     },
+    "plugins": [
+        "@config-plugins/react-native-webrtc",
+        "@daily-co/config-plugin-rn-daily-js",
+        [
+        "expo-build-properties",
+        {
+            "android": {
+                "minSdkVersion": 24
+            },
+            "ios": {
+                "deploymentTarget": "13.4"
+            }
+        }
+        ],
+        [
+        "expo-font",
+        {
+          "fonts": ["./assets/fonts/Inter-Black.otf"]
+        }
+      ]
+    ],
     "web": {
       "favicon": "./assets/favicon.png"
     }
