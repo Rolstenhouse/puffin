@@ -42,9 +42,13 @@ const BentoItem = ({
 };
 
 function HomeScreen({ navigation }) {
-  const [fontsLoaded] = useFonts({
+  let [fontsLoaded] = useFonts({
     "Inter-Black": require("./assets/fonts/Inter-Black.otf"),
   });
+
+  if (!fontsLoaded) {
+    return <View><Text>Loading...</Text></View>
+  }
 
   return (
     <View style={styles.container}>

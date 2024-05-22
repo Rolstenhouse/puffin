@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import Vapi from "@vapi-ai/react-native";
 import { CreateAssistantDTO } from "@vapi-ai/react-native/dist/api";
-import Daily from "@daily-co/react-native-daily-js";
+import Daily, { DailyCall } from "@daily-co/react-native-daily-js";
 
 const vapi = new Vapi(process.env.EXPO_PUBLIC_VAPI_PUBLIC_KEY || "");
 
@@ -62,96 +62,38 @@ const styles = StyleSheet.create({
 
 export default function Date3() {
   type CallStateOptions = "waiting" | "connecting" | "active" | "ended";
+  const [call, setCall] = useState<null | DailyCall>();
   const [callState, setCallState] = useState<CallStateOptions>("waiting");
 
-  const assistantOptions: CreateAssistantDTO = {
-    name: "Puffin: A couple's therapist",
-    firstMessage: "Hi there!",
-    numWordsToInterruptAssistant: 1,
-    transcriber: {
-      provider: "deepgram",
-      model: "nova-2",
-      language: "en-US",
-    },
-    voice: {
-      provider: "azure",
-      voiceId: "ryanNeural",
-    },
-    model: {
-      functions: [
-        {
-          name: "botAskedQuestion",
-          description:
-            "When a new question is asked by the AI/bot this function should be called with the question it's asking",
-          parameters: {
-            type: "object",
-            properties: {
-              question: {
-                type: "string",
-                description: "The question which the bot just asked.",
-              },
-            },
-          },
-        },
-      ],
-      provider: "openai",
-      model: "gpt-4o",
-      messages: [
-        {
-          role: "system",
-          content: prompt,
-        },
-      ],
-    },
-  };
-
   const handleStart = async () => {
-    const original_call = await vapi.start(assistantOptions || "");
-    const call_id = original_call?.id;
-
-    // Client would have to join the call in order to handle this flow correctly
-    // const client = Daily.CallClient((event_handler = self));
-    const call = Daily.createCallObject();
-
-    setCallState("connecting");
-  };
-
-  function registerVapiMessages() {
-    vapi.on("speech-start", () => {
-      console.log("Speech has started");
+    const data = await fetch(
+      "https://snail-informed-daily.ngrok-free.app" + "/startRoom"
+    );
+    const json = await data.json();
+    const url = json.url;
+    console.log("url", url);
+    const call = Daily.createCallObject({
+      audioSource: true,
+      videoSource: false,
     });
+    setCall(call);
+    call.join({ url: url });
 
-    vapi.on("speech-end", () => {
-      console.log("Speech has ended");
-    });
-
-    vapi.on("call-start", () => {
-      console.log("Call has started");
-      setCallState("active");
-    });
-
-    vapi.on("call-end", () => {
-      console.log("Call has stopped");
-      setCallState("ended");
-    });
-
-    // Function calls and transcripts will be sent via messages
-    vapi.on("message", (message) => {
+    call.on("transcription-message", (message) => {
       console.log(message);
     });
 
-    vapi.on("error", (e) => {
-      console.error(e);
+    call.on("error", (error) => {
+      console.error(error);
+      setCallState("waiting");
     });
-  }
 
-  useEffect(() => {
-    registerVapiMessages();
-  }, []);
+    setCallState("active");
+  };
 
-  const handleEnd = async () => {
-    vapi.stop();
-    setCallState("waiting");
+  const handleEnd = () => {
+    call?.leave();
+    setCall(null);
   };
 
   return (

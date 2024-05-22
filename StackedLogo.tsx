@@ -1,6 +1,17 @@
+import { useFonts } from "expo-font";
 import { StyleSheet, View, Text, Image } from "react-native";
 
 export const StackedLogo = () => {
+      let [fontsLoaded] = useFonts({
+        "Inter-Black": require("./assets/fonts/Inter-Black.otf"),
+      });
+      if (!fontsLoaded) {
+        return (
+          <View>
+            <Text>Loading...</Text>
+          </View>
+        );
+      }
   return (
     <View
       style={{
