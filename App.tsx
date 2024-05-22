@@ -1,29 +1,28 @@
 import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, TouchableOpacity, View, ScrollView } from "react-native";
-import { useEffect } from "react";
 import {
-  NavigationContainer,
-  useNavigation,
-} from "@react-navigation/native";
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+  ScrollView,
+} from "react-native";
+import { useEffect } from "react";
+import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import QuestionsScreen from "./36Questions";  
+import QuestionsScreen from "./36Questions";
 import { useFonts } from "expo-font";
-
-
-
 
 const Stack = createNativeStackNavigator();
 
-const BentoItem = ({ title, description, bottomLeft, bottomRight }) => {
-  const navigation = useNavigation();
-
+const BentoItem = ({
+  title,
+  description,
+  bottomLeft,
+  bottomRight,
+  onPress,
+}) => {
   return (
-    <TouchableOpacity
-      style={styles.bentoBox}
-      onPress={() =>
-        navigation.navigate("36Questions", { headerTitle: "36 questions" })
-      }
-    >
+    <TouchableOpacity style={styles.bentoBox} onPress={onPress}>
       <View>
         <Text style={styles.bentoBoxTitle}>{title}</Text>
         <Text style={styles.bentoBoxDescription}>{description}</Text>
@@ -55,6 +54,18 @@ function HomeScreen({ navigation }) {
           description='Loved by 10000+ couples'
           bottomLeft={"Est. 3 hours"}
           bottomRight={"Not started"}
+          onPress={() =>
+            navigation.navigate("36Questions", { headerTitle: "36 questions" })
+          }
+        />
+        <BentoItem
+          title='Date 3: Sex and intimacy'
+          description='Loved by 100+ couples'
+          bottomLeft={"Est. 3 hours"}
+          bottomRight={"Not started"}
+          onPress={() =>
+            navigation.navigate("Date3", { headerTitle: "Date 3" })
+          }
         />
         <StackedLogo />
       </ScrollView>
@@ -76,6 +87,7 @@ function DetailsScreen({ route, navigation }) {
 }
 
 import { StackedLogo } from "./StackedLogo";
+import Date3 from "./Date3";
 
 export default function App() {
   return (
@@ -94,6 +106,7 @@ export default function App() {
         />
         <Stack.Screen name='Details' component={DetailsScreen} />
         <Stack.Screen name='36Questions' component={QuestionsScreen} />
+        <Stack.Screen name='Date3' component={Date3} />
       </Stack.Navigator>
     </NavigationContainer>
   );
