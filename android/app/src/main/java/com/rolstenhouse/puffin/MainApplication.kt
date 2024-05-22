@@ -1,4 +1,4 @@
-package com.rolstenhouse.puffin2
+package com.rolstenhouse.puffin
 
 import android.app.Application
 import android.content.res.Configuration

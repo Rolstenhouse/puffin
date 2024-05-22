@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "puffin2.app"
-               BlueprintName = "puffin2"
-               ReferencedContainer = "container:puffin2.xcodeproj">
+               BuildableName = "puffin.app"
+               BlueprintName = "puffin"
+               ReferencedContainer = "container:puffin.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "puffin2Tests.xctest"
-               BlueprintName = "puffin2Tests"
-               ReferencedContainer = "container:puffin2.xcodeproj">
+               BuildableName = "puffinTests.xctest"
+               BlueprintName = "puffinTests"
+               ReferencedContainer = "container:puffin.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "puffin2.app"
-            BlueprintName = "puffin2"
-            ReferencedContainer = "container:puffin2.xcodeproj">
+            BuildableName = "puffin.app"
+            BlueprintName = "puffin"
+            ReferencedContainer = "container:puffin.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "puffin2.app"
-            BlueprintName = "puffin2"
-            ReferencedContainer = "container:puffin2.xcodeproj">
+            BuildableName = "puffin.app"
+            BlueprintName = "puffin"
+            ReferencedContainer = "container:puffin.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

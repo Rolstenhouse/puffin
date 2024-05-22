@@ -7,7 +7,7 @@
     <key>CFBundleDevelopmentRegion</key>
     <string>$(DEVELOPMENT_LANGUAGE)</string>
     <key>CFBundleDisplayName</key>
-    <string>puffin2</string>
+    <string>puffin</string>
     <key>CFBundleExecutable</key>
     <string>$(EXECUTABLE_NAME)</string>
     <key>CFBundleIdentifier</key>
@@ -27,7 +27,7 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>com.rolstenhouse.puffin2</string>
+          <string>com.rolstenhouse.puffin</string>
         </array>
       </dict>
     </array>
@@ -43,9 +43,13 @@
       <true/>
     </dict>
     <key>NSCameraUsageDescription</key>
-    <string>$(PRODUCT_NAME) needs microphone access to work</string>
+    <string>Allow $(PRODUCT_NAME) to access your camera</string>
     <key>NSMicrophoneUsageDescription</key>
     <string>Allow $(PRODUCT_NAME) to access your microphone</string>
+    <key>UIAppFonts</key>
+    <array>
+      <string>Inter-Black.otf</string>
+    </array>
     <key>UIBackgroundModes</key>
     <array>
       <string>voip</string>

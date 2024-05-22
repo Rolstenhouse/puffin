@@ -1,4 +1,4 @@
-package com.rolstenhouse.puffin2
+package com.rolstenhouse.puffin
 
 import android.os.Build
 import android.os.Bundle

@@ -1,10 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import Vapi from "@vapi-ai/react-native";
-import { CreateAssistantDTO } from "@vapi-ai/react-native/dist/api";
 import Daily, { DailyCall } from "@daily-co/react-native-daily-js";
-
-const vapi = new Vapi(process.env.EXPO_PUBLIC_VAPI_PUBLIC_KEY || "");
 
 const prompt = `
 ROLE: 
@@ -80,6 +76,13 @@ export default function Date3() {
     call.join({ url: url });
 
     call.on("transcription-message", (message) => {
+      console.log("transcription");
+      console.log(message)
+      console.log(message.rawResponse.channel.alternatives?.map(alt => alt.words?.map(word => word.speaker)));
+    });
+
+    call.on("app-message", (message) => {
+      console.log("app");
       console.log(message);
     });
 
@@ -94,6 +97,7 @@ export default function Date3() {
   const handleEnd = () => {
     call?.leave();
     setCall(null);
+    setCallState("waiting");
   };
 
   return (

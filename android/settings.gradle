@@ -1,4 +1,4 @@
-rootProject.name = 'puffin2'
+rootProject.name = 'puffin'
 
 dependencyResolutionManagement {
   versionCatalogs {
