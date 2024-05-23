@@ -2,22 +2,24 @@ import { useFonts } from "expo-font";
 import { StyleSheet, View, Text, Image } from "react-native";
 
 export const StackedLogo = () => {
-      let [fontsLoaded] = useFonts({
-        "Inter-Black": require("./assets/fonts/Inter-Black.otf"),
-      });
-      if (!fontsLoaded) {
-        return (
-          <View>
-            <Text>Loading...</Text>
-          </View>
-        );
-      }
+  let [fontsLoaded] = useFonts({
+    "Inter-Black": require("./assets/fonts/Inter-Black.otf"),
+  });
+  if (!fontsLoaded) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
   return (
     <View
       style={{
+        display: "flex",
+        flexDirection: "column",
         justifyContent: "center",
         alignItems: "center",
-        paddingTop: 20,
+        padding: 16,
         gap: 4,
       }}
     >
