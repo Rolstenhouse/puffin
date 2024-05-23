@@ -42,9 +42,17 @@ const BentoItem = ({
 };
 
 function HomeScreen({ navigation }) {
-  const [fontsLoaded] = useFonts({
+  let [fontsLoaded] = useFonts({
     "Inter-Black": require("./assets/fonts/Inter-Black.otf"),
   });
+
+  if (!fontsLoaded) {
+    return (
+      <View>
+        <Text>Loading...</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -59,9 +67,27 @@ function HomeScreen({ navigation }) {
           }
         />
         <BentoItem
-          title='Date 3: Sex and intimacy'
+          title='Discussing sex and intimacy'
           description='Loved by 100+ couples'
           bottomLeft={"Est. 3 hours"}
+          bottomRight={"Not started"}
+          onPress={() =>
+            navigation.navigate("Sex & Intimacy", { headerTitle: "Date 3" })
+          }
+        />
+        <BentoItem
+          title='Games: Would you rather?'
+          description='Loved by 1000+ couples'
+          bottomLeft={"Est. 30 min"}
+          bottomRight={"Not started"}
+          onPress={() =>
+            navigation.navigate("Date3", { headerTitle: "Date 3" })
+          }
+        />
+        <BentoItem
+          title='Create your own'
+          description='Puffin is a blank slate, you set the terms.'
+          bottomLeft={"Est. ?"}
           bottomRight={"Not started"}
           onPress={() =>
             navigation.navigate("Date3", { headerTitle: "Date 3" })
@@ -92,21 +118,22 @@ import Date3 from "./Date3";
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator
+        screenOptions={{
+          headerStyle: { backgroundColor: "#fff" },
+          headerTitleStyle: { fontFamily: "Inter-Black" },
+        }}
+      >
         <Stack.Screen
           name='Puffin'
           component={HomeScreen}
           options={{
             headerShown: true,
-            headerStyle: { backgroundColor: "#fff" },
-            headerTitleStyle: {
-              fontFamily: "Inter-Black",
-            },
           }}
         />
         <Stack.Screen name='Details' component={DetailsScreen} />
         <Stack.Screen name='36Questions' component={QuestionsScreen} />
-        <Stack.Screen name='Date3' component={Date3} />
+        <Stack.Screen name='Sex & Intimacy' component={Date3} />
       </Stack.Navigator>
     </NavigationContainer>
   );

@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "puffin2",
-    "slug": "puffin2",
+    "name": "puffin",
+    "slug": "puffin",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -13,7 +13,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.rolstenhouse.puffin2",
+      "bundleIdentifier": "com.rolstenhouse.puffin",
       "infoPlist": {
         "UIBackgroundModes": ["voip"]
       }
@@ -23,7 +23,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "package": "com.rolstenhouse.puffin2"
+      "package": "com.rolstenhouse.puffin"
     },
     "plugins": [
         "@config-plugins/react-native-webrtc",
