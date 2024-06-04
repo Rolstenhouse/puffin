@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TextInput, Button } from "react-native";
+import { View, Text, TextInput, Button, Pressable } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
 import { supabase } from "../../lib/supabase";
@@ -40,6 +40,15 @@ const Error = styled.Text`
   color: red;
   font-weight: 600;
   margin-bottom: 4px;
+`;
+
+const Link = styled.Text`
+  font-size: 12px;
+  color: #0a3924;
+  font-weight: 600;
+  margin-bottom: 4px;
+  text-decoration-line: underline;
+  opacity: ${({ pressed }) => (pressed ? ".8" : "1")};
 `;
 
 type OnboardingStackParamList = {
@@ -106,7 +115,7 @@ export default function OnboardingScreen2({ navigation }: Props) {
     if (error) {
       setOTPError(error.message);
     } else {
-      //   handleSuccessfulOTP();
+      handleSuccessfulOTP();
     }
   };
 
@@ -122,6 +131,18 @@ export default function OnboardingScreen2({ navigation }: Props) {
       setPhoneError(error.message);
     } else {
       setWaitingForOTP(true);
+    }
+  };
+
+  const handleResendOTP = async () => {
+    setOTPError("");
+    const { data, error } = await supabase.auth.resend({
+      type: "phone_change",
+      phone: getE164Format(),
+    });
+
+    if (error) {
+      setOTPError(error.message);
     }
   };
 
@@ -157,7 +178,14 @@ export default function OnboardingScreen2({ navigation }: Props) {
               width='90px'
               center
             />
-            {otpError && <Error>{otpError}</Error>}
+            {otpError ? (
+              <>
+                <Error>{otpError}</Error>
+                <Pressable onPress={handleResendOTP}>
+                  {({ pressed }) => <Link pressed={pressed}>Resend code</Link>}
+                </Pressable>
+              </>
+            ) : null}
           </View>
         )}
       </View>
@@ -166,12 +194,12 @@ export default function OnboardingScreen2({ navigation }: Props) {
         <BigButton
           text={"Create Account"}
           onPress={handleLogin}
-          disabled={!otp || !!otpError}
+          disabled={!phone || !!phoneError}
         />
       ) : (
         <BigButton
           text={"Confirm"}
-          disabled={!phone || !!phoneError}
+          disabled={!otp || !!otpError}
           onPress={verifyOTP}
         />
       )}

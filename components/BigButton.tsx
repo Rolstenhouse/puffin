@@ -32,7 +32,6 @@ export default function BigButton({
   return (
     <Pressable
       onPress={() => {
-        56186;
         if (disabled) return;
         onPress?.();
       }}
