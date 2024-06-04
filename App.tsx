@@ -7,7 +7,9 @@ import {
   ScrollView,
   AppState,
 } from "react-native";
-import React from "react";
+import { Session } from "@supabase/supabase-js";
+
+import React, { useEffect, useState } from "react";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import QuestionsScreen from "./screens/36Questions";
@@ -173,6 +175,17 @@ function MainAppNavigator({ navigation }) {
 }
 
 export default function App() {
+  const [session, setSession] = useState<Session | null>(null);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+    });
+
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    });
+  }, []);
   return (
     <NavigationContainer>
       <OnboardingNavigator />

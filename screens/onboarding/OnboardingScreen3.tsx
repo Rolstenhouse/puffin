@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { View, Text, TextInput, Button } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
@@ -6,6 +6,7 @@ import { supabase } from "../../lib/supabase";
 import styled from "styled-components/native";
 import BigButton from "../../components/BigButton";
 import { StackedLogo } from "../../components/StackedLogo";
+import { Session } from "@supabase/supabase-js";
 
 const OnboardingView = styled.View`
   flex: 1;

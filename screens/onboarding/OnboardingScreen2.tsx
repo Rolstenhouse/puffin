@@ -137,8 +137,15 @@ export default function OnboardingScreen2({ navigation }: Props) {
   const handleResendOTP = async () => {
     setOTPError("");
     const { data, error } = await supabase.auth.resend({
-      type: "phone_change",
+      type: "sms",
       phone: getE164Format(),
+    });
+
+    const { data: data2, error: error2 } = await supabase.auth.signInWithOtp({
+      phone: getE164Format(),
+      options: {
+        channel: "sms",
+      },
     });
 
     if (error) {
@@ -174,7 +181,6 @@ export default function OnboardingScreen2({ navigation }: Props) {
               }}
               value={otp}
               maxLength={6}
-              onEndEditing={verifyOTP}
               width='90px'
               center
             />
