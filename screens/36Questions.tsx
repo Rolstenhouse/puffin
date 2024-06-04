@@ -1,9 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import Vapi from "@vapi-ai/react-native";
-import { CreateAssistantDTO } from "@vapi-ai/react-native/dist/api";
-
-const vapi = new Vapi(process.env.EXPO_PUBLIC_VAPI_PUBLIC_KEY || "");
 
 const prompt = `
         You are a couple's therapist asking the 36 questions to love. Ask each partner for their name, then refer to them by name when asking each question. Ask the questions to each partner (so you should have two distinct responses). Wait for the first person to answer the question. Do not repeat yourself. When asking a new question, alternate which person you ask first? 
@@ -108,8 +104,7 @@ export default function QuestionsScreen() {
             properties: {
               question: {
                 type: "string",
-                description:
-                  "The question which is currently being asked.",
+                description: "The question which is currently being asked.",
               },
             },
           },
@@ -126,48 +121,8 @@ export default function QuestionsScreen() {
     },
   };
 
-  const handleStart = () => {
-    vapi.start(assistantOptions || "");
-    setCallState("connecting");
-  };
-
-  function registerVapiMessages() {
-    vapi.on("speech-start", () => {
-      console.log("Speech has started");
-    });
-
-    vapi.on("speech-end", () => {
-      console.log("Speech has ended");
-    });
-
-    vapi.on("call-start", () => {
-      console.log("Call has started");
-      setCallState("active");
-    });
-
-    vapi.on("call-end", () => {
-      console.log("Call has stopped");
-      setCallState("ended");
-    });
-
-    // Function calls and transcripts will be sent via messages
-    vapi.on("message", (message) => {
-      console.log(message);
-    });
-
-    vapi.on("error", (e) => {
-      console.error(e);
-    });
-  }
-
-  useEffect(() => {
-    registerVapiMessages();
-  }, []);
-
-  const handleEnd = async () => {
-    vapi.stop();
-    setCallState("waiting");
-  };
+  const handleStart = async () => {};
+  const handleEnd = async () => {};
 
   return (
     <View style={styles.container}>

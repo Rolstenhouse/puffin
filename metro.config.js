@@ -2,7 +2,8 @@ const { getDefaultConfig } = require("@expo/metro-config");
 const resolveFrom = require("resolve-from");
 
 /** @type {import('expo/metro-config').MetroConfig} */
-const config = getDefaultConfig(__dirname);
+const config = getDefaultConfig(__dirname, { isCSSEnabled: true });
+const { withNativeWind } = require("nativewind/metro");
 
 config.resolver.resolveRequest = (context, moduleName, platform) => {
   if (
@@ -20,4 +21,4 @@ config.resolver.resolveRequest = (context, moduleName, platform) => {
   return context.resolveRequest(context, moduleName, platform);
 };
 
-module.exports = config;
+module.exports = withNativeWind(config, { input: "./global.css" });

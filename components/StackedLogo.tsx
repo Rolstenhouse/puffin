@@ -3,7 +3,7 @@ import { StyleSheet, View, Text, Image } from "react-native";
 
 export const StackedLogo = () => {
   let [fontsLoaded] = useFonts({
-    "Inter-Black": require("./assets/fonts/Inter-Black.otf"),
+    "Inter-Black": require("../assets/fonts/Inter-Black.otf"),
   });
   if (!fontsLoaded) {
     return (
@@ -24,7 +24,7 @@ export const StackedLogo = () => {
       }}
     >
       <Image
-        source={require("./assets/puffin_kiss.png")}
+        source={require("../assets/puffin_kiss.png")}
         style={{ width: 32, height: 20 }}
       />
       <Text style={styles.title}>Puffin</Text>

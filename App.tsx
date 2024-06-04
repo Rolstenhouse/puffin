@@ -5,14 +5,38 @@ import {
   TouchableOpacity,
   View,
   ScrollView,
+  AppState,
 } from "react-native";
-import { useEffect } from "react";
+import React from "react";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import QuestionsScreen from "./36Questions";
+import QuestionsScreen from "./screens/36Questions";
 import { useFonts } from "expo-font";
+import { supabase } from "./lib/supabase";
+
+import OnboardingScreen1 from "./screens/onboarding/OnboardingScreen1";
+import OnboardingScreen2 from "./screens/onboarding/OnboardingScreen2";
+import OnboardingScreen3 from "./screens/onboarding/OnboardingScreen3";
+
+import "./global.css";
 
 const Stack = createNativeStackNavigator();
+
+AppState.addEventListener("change", (state) => {
+  if (state === "active") {
+    supabase.auth.startAutoRefresh();
+  } else {
+    supabase.auth.stopAutoRefresh();
+  }
+});
+
+type BentoItemProps = {
+  title: string;
+  description: string;
+  bottomLeft: string;
+  bottomRight: string;
+  onPress: () => void;
+};
 
 const BentoItem = ({
   title,
@@ -20,7 +44,7 @@ const BentoItem = ({
   bottomLeft,
   bottomRight,
   onPress,
-}) => {
+}: BentoItemProps) => {
   return (
     <TouchableOpacity style={styles.bentoBox} onPress={onPress}>
       <View>
@@ -55,7 +79,7 @@ function HomeScreen({ navigation }) {
   }
 
   return (
-    <View style={styles.container}>
+    <View className='bg-background flex h-screen'>
       <ScrollView>
         <BentoItem
           title='36 questions to fall in love'
@@ -112,38 +136,51 @@ function DetailsScreen({ route, navigation }) {
   );
 }
 
-import { StackedLogo } from "./StackedLogo";
-import Date3 from "./Date3";
+import { StackedLogo } from "./components/StackedLogo";
+import Date3 from "./screens/Date3";
+
+function OnboardingNavigator() {
+  return (
+    <Stack.Navigator initialRouteName='Onboarding1'>
+      <Stack.Screen name='Onboarding1' component={OnboardingScreen1} />
+      <Stack.Screen name='Onboarding2' component={OnboardingScreen2} />
+      <Stack.Screen name='Onboarding3' component={OnboardingScreen3} />
+    </Stack.Navigator>
+  );
+}
+
+function MainAppNavigator({ navigation }) {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerStyle: { backgroundColor: "var(--background)" },
+        headerTitleStyle: { fontFamily: "Inter-Black" },
+      }}
+    >
+      <Stack.Screen
+        name='Puffin'
+        component={HomeScreen}
+        options={{
+          headerShown: true,
+        }}
+      />
+      <Stack.Screen name='Details' component={DetailsScreen} />
+      <Stack.Screen name='36Questions' component={QuestionsScreen} />
+      <Stack.Screen name='Sex & Intimacy' component={Date3} />
+    </Stack.Navigator>
+  );
+}
 
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{
-          headerStyle: { backgroundColor: "#fff" },
-          headerTitleStyle: { fontFamily: "Inter-Black" },
-        }}
-      >
-        <Stack.Screen
-          name='Puffin'
-          component={HomeScreen}
-          options={{
-            headerShown: true,
-          }}
-        />
-        <Stack.Screen name='Details' component={DetailsScreen} />
-        <Stack.Screen name='36Questions' component={QuestionsScreen} />
-        <Stack.Screen name='Sex & Intimacy' component={Date3} />
-      </Stack.Navigator>
+      <OnboardingNavigator />
+      {/* <MainAppNavigator /> */}
     </NavigationContainer>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-  },
   bentoBox: {
     justifyContent: "space-between",
     padding: 16,

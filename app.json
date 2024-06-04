@@ -9,7 +9,7 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#FAF3EA"
     },
     "ios": {
       "supportsTablet": true,
@@ -21,25 +21,25 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#FAF3EA"
       },
       "package": "com.rolstenhouse.puffin"
     },
     "plugins": [
-        "@config-plugins/react-native-webrtc",
-        "@daily-co/config-plugin-rn-daily-js",
-        [
+      "@config-plugins/react-native-webrtc",
+      "@daily-co/config-plugin-rn-daily-js",
+      [
         "expo-build-properties",
         {
-            "android": {
-                "minSdkVersion": 24
-            },
-            "ios": {
-                "deploymentTarget": "13.4"
-            }
+          "android": {
+            "minSdkVersion": 24
+          },
+          "ios": {
+            "deploymentTarget": "13.4"
+          }
         }
-        ],
-        [
+      ],
+      [
         "expo-font",
         {
           "fonts": ["./assets/fonts/Inter-Black.otf"]
