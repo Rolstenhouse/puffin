@@ -1,7 +1,23 @@
 import React from "react";
-import { View, Text, Button } from "react-native";
+import { View, Text, Pressable } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
+import styled from "styled-components/native";
+
+const Title = styled.Text`
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+`;
+
+const NextButton = styled.Pressable`
+  margin-top: 20px;
+  margin-bottom: 20px;
+  font-size: 16px;
+  border-radius: 3px;
+  padding: 10px;
+  width: fit-content;
+`;
 
 type OnboardingStackParamList = {
   Onboarding1: undefined;
@@ -27,9 +43,11 @@ type Props = {
 export default function OnboardingScreen1({ navigation }: Props) {
   return (
     <View>
-      <Text>Welcome to Puffin!</Text>
+      <Title>Welcome to Puffin!</Title>
       <Text>Are you ready to begin your relationship journey?</Text>
-      <Button title='Next' onPress={() => navigation.navigate("Onboarding2")} />
+      <NextButton onPress={() => navigation.navigate("Onboarding2")}>
+        <Text>Yes, let's go!</Text>
+      </NextButton>
     </View>
   );
 }

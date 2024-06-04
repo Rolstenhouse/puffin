@@ -3,13 +3,6 @@ import { View, Text, TextInput, Button } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
 import { supabase } from "../../lib/supabase";
-import { PatternFormat } from "react-number-format";
-
-import { styled } from "nativewind";
-
-const StyledView = styled(View);
-const StyledText = styled(Text);
-const StyledTextInput = styled(TextInput);
 
 type OnboardingStackParamList = {
   Onboarding1: undefined;
@@ -94,11 +87,11 @@ export default function OnboardingScreen2({ navigation }: Props) {
   };
 
   return (
-    <StyledView>
+    <View>
       <Text>Create your account to continue</Text>
       {waitingForOTP ? (
         <>
-          <StyledTextInput
+          <TextInput
             onChangeText={(e) => setOTP(e.slice(0, 6))}
             value={otp}
             maxLength={6}
@@ -110,8 +103,7 @@ export default function OnboardingScreen2({ navigation }: Props) {
         <>
           <Text>Phone Number</Text>
 
-          <StyledTextInput
-            className='h-10 border border-gray-300 pl-2'
+          <TextInput
             value={phone}
             onChangeText={handlePhoneChange}
             keyboardType='phone-pad'
@@ -126,6 +118,6 @@ export default function OnboardingScreen2({ navigation }: Props) {
       {!waitingForOTP && (
         <Button title='Create Account' onPress={handleLogin} />
       )}
-    </StyledView>
+    </View>
   );
 }

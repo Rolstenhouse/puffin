@@ -18,8 +18,6 @@ import OnboardingScreen1 from "./screens/onboarding/OnboardingScreen1";
 import OnboardingScreen2 from "./screens/onboarding/OnboardingScreen2";
 import OnboardingScreen3 from "./screens/onboarding/OnboardingScreen3";
 
-import "./global.css";
-
 const Stack = createNativeStackNavigator();
 
 AppState.addEventListener("change", (state) => {
