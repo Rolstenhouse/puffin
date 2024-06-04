@@ -10,13 +10,13 @@ const Title = styled.Text`
   margin-bottom: 20px;
 `;
 
-const NextButton = styled.Pressable`
+const NextButton = styled.View`
   margin-top: 20px;
   margin-bottom: 20px;
   font-size: 16px;
   border-radius: 3px;
   padding: 10px;
-  width: fit-content;
+  background-color: ${({ pressed }) => (pressed ? "black" : "blue")};
 `;
 
 type OnboardingStackParamList = {
@@ -45,9 +45,13 @@ export default function OnboardingScreen1({ navigation }: Props) {
     <View>
       <Title>Welcome to Puffin!</Title>
       <Text>Are you ready to begin your relationship journey?</Text>
-      <NextButton onPress={() => navigation.navigate("Onboarding2")}>
-        <Text>Yes, let's go!</Text>
-      </NextButton>
+      <Pressable onPress={() => navigation.navigate("Onboarding2")}>
+        {({ pressed }) => (
+          <NextButton pressed={pressed}>
+            <Text>Yes, let's go!</Text>
+          </NextButton>
+        )}
+      </Pressable>
     </View>
   );
 }
