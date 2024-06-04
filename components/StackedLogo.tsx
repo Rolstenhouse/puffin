@@ -1,7 +1,7 @@
 import { useFonts } from "expo-font";
 import { StyleSheet, View, Text, Image } from "react-native";
 
-export const StackedLogo = () => {
+export const StackedLogo = ({ includeText = true }) => {
   let [fontsLoaded] = useFonts({
     "Inter-Black": require("../assets/fonts/Inter-Black.otf"),
   });
@@ -27,7 +27,7 @@ export const StackedLogo = () => {
         source={require("../assets/puffin_kiss.png")}
         style={{ width: 32, height: 20 }}
       />
-      <Text style={styles.title}>Puffin</Text>
+      {includeText && <Text style={styles.title}>Puffin</Text>}
     </View>
   );
 };

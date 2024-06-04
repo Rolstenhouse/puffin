@@ -139,7 +139,10 @@ import Date3 from "./screens/Date3";
 
 function OnboardingNavigator() {
   return (
-    <Stack.Navigator initialRouteName='Onboarding1'>
+    <Stack.Navigator
+      initialRouteName='Onboarding1'
+      screenOptions={{ headerShown: false }}
+    >
       <Stack.Screen name='Onboarding1' component={OnboardingScreen1} />
       <Stack.Screen name='Onboarding2' component={OnboardingScreen2} />
       <Stack.Screen name='Onboarding3' component={OnboardingScreen3} />
@@ -156,7 +159,7 @@ function MainAppNavigator({ navigation }) {
       }}
     >
       <Stack.Screen
-        name='Puffin'
+        name='Home'
         component={HomeScreen}
         options={{
           headerShown: true,

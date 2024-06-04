@@ -3,6 +3,44 @@ import { View, Text, TextInput, Button } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
 import { supabase } from "../../lib/supabase";
+import styled from "styled-components/native";
+import BigButton from "../../components/BigButton";
+import { StackedLogo } from "../../components/StackedLogo";
+
+const OnboardingView = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  padding-top: 60px;
+  background-color: #faf3ea;
+`;
+
+const Input = styled.TextInput`
+  border-radius: 5px;
+  padding: 10px;
+  font-size: 16px;
+  margin-bottom: 10px;
+  width: ${(props) => props.width || "200px"};
+  border: solid 0px #0a3924;
+  border-bottom-width: 0.5px;
+  color: #0a3924;
+  text-align: ${(props) => (props.center ? "center" : "left")};
+`;
+
+const Label = styled.Text`
+  font-size: 16px;
+  color: #0a3924;
+  font-weight: 600;
+  margin-bottom: 4px;
+`;
+
+const Error = styled.Text`
+  font-size: 12px;
+  color: red;
+  font-weight: 600;
+  margin-bottom: 4px;
+`;
 
 type OnboardingStackParamList = {
   Onboarding1: undefined;
@@ -34,6 +72,7 @@ export default function OnboardingScreen2({ navigation }: Props) {
 
   const handlePhoneChange = (text: string) => {
     // Remove all non-numeric characters
+    setPhoneError("");
     const cleaned = ("" + text).replace(/\D/g, "");
     const match = cleaned.match(/^(\d{0,3})(\d{0,3})(\d{0,4})$/);
 
@@ -67,7 +106,7 @@ export default function OnboardingScreen2({ navigation }: Props) {
     if (error) {
       setOTPError(error.message);
     } else {
-      handleSuccessfulOTP();
+      //   handleSuccessfulOTP();
     }
   };
 
@@ -87,37 +126,55 @@ export default function OnboardingScreen2({ navigation }: Props) {
   };
 
   return (
-    <View>
-      <Text>Create your account to continue</Text>
-      {waitingForOTP ? (
-        <>
-          <TextInput
-            onChangeText={(e) => setOTP(e.slice(0, 6))}
-            value={otp}
-            maxLength={6}
-            onEndEditing={verifyOTP}
-          />
-          {otpError && <Text>{otpError}</Text>}
-        </>
+    <OnboardingView>
+      <StackedLogo />
+      <View>
+        {!waitingForOTP ? (
+          <View>
+            <Label>Phone</Label>
+
+            <Input
+              value={phone}
+              onChangeText={handlePhoneChange}
+              keyboardType='phone-pad'
+              placeholder='(123) 456-7890'
+              maxLength={14} // Maximum length for formatted phone number
+            />
+
+            {phoneError && <Error>{phoneError}</Error>}
+          </View>
+        ) : (
+          <View style={{ alignItems: "center" }}>
+            <Label>Your 6-digit code</Label>
+            <Input
+              onChangeText={(e) => {
+                setOTP(e.slice(0, 6));
+                setOTPError("");
+              }}
+              value={otp}
+              maxLength={6}
+              onEndEditing={verifyOTP}
+              width='90px'
+              center
+            />
+            {otpError && <Error>{otpError}</Error>}
+          </View>
+        )}
+      </View>
+
+      {!waitingForOTP ? (
+        <BigButton
+          text={"Create Account"}
+          onPress={handleLogin}
+          disabled={!otp || !!otpError}
+        />
       ) : (
-        <>
-          <Text>Phone Number</Text>
-
-          <TextInput
-            value={phone}
-            onChangeText={handlePhoneChange}
-            keyboardType='phone-pad'
-            placeholder='Enter phone number'
-            maxLength={14} // Maximum length for formatted phone number
-          />
-
-          {phoneError && <Text>{phoneError}</Text>}
-        </>
+        <BigButton
+          text={"Confirm"}
+          disabled={!phone || !!phoneError}
+          onPress={verifyOTP}
+        />
       )}
-
-      {!waitingForOTP && (
-        <Button title='Create Account' onPress={handleLogin} />
-      )}
-    </View>
+    </OnboardingView>
   );
 }

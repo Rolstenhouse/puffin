@@ -1,22 +1,28 @@
 import React from "react";
-import { View, Text, Pressable } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
 import styled from "styled-components/native";
+import { StackedLogo } from "../../components/StackedLogo";
+import BigButton from "../../components/BigButton";
+
+const OnboardingView = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: #faf3ea;
+`;
 
 const Title = styled.Text`
-  font-size: 24px;
-  font-weight: bold;
+  font-size: 32px;
+  font-weight: 800;
   margin-bottom: 20px;
 `;
 
-const NextButton = styled.View`
-  margin-top: 20px;
-  margin-bottom: 20px;
+const Subtitle = styled.Text`
   font-size: 16px;
-  border-radius: 3px;
-  padding: 10px;
-  background-color: ${({ pressed }) => (pressed ? "black" : "blue")};
+  font-weight: 600;
+  margin-bottom: 20px;
 `;
 
 type OnboardingStackParamList = {
@@ -42,16 +48,14 @@ type Props = {
 
 export default function OnboardingScreen1({ navigation }: Props) {
   return (
-    <View>
+    <OnboardingView>
+      <StackedLogo includeText={false} />
       <Title>Welcome to Puffin!</Title>
-      <Text>Are you ready to begin your relationship journey?</Text>
-      <Pressable onPress={() => navigation.navigate("Onboarding2")}>
-        {({ pressed }) => (
-          <NextButton pressed={pressed}>
-            <Text>Yes, let's go!</Text>
-          </NextButton>
-        )}
-      </Pressable>
-    </View>
+      <Subtitle>Take your relationship to the next level</Subtitle>
+      <BigButton
+        onPress={() => navigation.navigate("Onboarding2")}
+        text="Let's get started!"
+      />
+    </OnboardingView>
   );
 }
