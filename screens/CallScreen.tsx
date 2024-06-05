@@ -233,9 +233,7 @@ export default function CallScreen({
                 ))}
               </View>
             )}
-            <TouchableOpacity style={styles.button} onPress={handleEnd}>
-              <Text style={styles.title}>End call</Text>
-            </TouchableOpacity>
+            <BigButton onPress={handleEnd} text='End call'></BigButton>
           </>
         )}
       </View>
