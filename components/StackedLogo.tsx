@@ -25,7 +25,7 @@ export const StackedLogo = ({ includeText = true }) => {
     >
       <Image
         source={require("../assets/puffin_kiss.png")}
-        style={{ width: 32, height: 20 }}
+        style={{ width: 32, height: 20, tintColor: "#0a3924" }}
       />
       {includeText && <Text style={styles.title}>Puffin</Text>}
     </View>
@@ -36,5 +36,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontFamily: "Inter-Black",
+    color: "#0a3924",
   },
 });

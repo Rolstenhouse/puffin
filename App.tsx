@@ -21,6 +21,7 @@ import OnboardingScreen2 from "./screens/onboarding/OnboardingScreen2";
 import OnboardingScreen3 from "./screens/onboarding/OnboardingScreen3";
 import HomeScreen from "./screens/HomeScreen";
 import Date3 from "./screens/Date3";
+import CallScreen from "./screens/CallScreen";
 
 const Stack = createNativeStackNavigator();
 
@@ -31,18 +32,6 @@ AppState.addEventListener("change", (state) => {
     supabase.auth.stopAutoRefresh();
   }
 });
-
-function DetailsScreen({ route, navigation }) {
-  const headerTitle = route.params?.headerTitle || "Default Title";
-
-  return (
-    <View style={styles.container}>
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <Text>{headerTitle}</Text>
-      </View>
-    </View>
-  );
-}
 
 function OnboardingNavigator() {
   return (
@@ -61,8 +50,11 @@ function MainAppNavigator() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: { backgroundColor: "var(--background)" },
+        headerStyle: { backgroundColor: "#FAF3EA" },
         headerTitleStyle: { fontFamily: "Inter-Black" },
+        headerBackTitleVisible: false,
+        headerShadowVisible: false,
+        headerTitle: "",
       }}
     >
       <Stack.Screen
@@ -72,9 +64,47 @@ function MainAppNavigator() {
           headerShown: false,
         }}
       />
-      <Stack.Screen name='Details' component={DetailsScreen} />
-      <Stack.Screen name='36Questions' component={QuestionsScreen} />
-      <Stack.Screen name='Sex & Intimacy' component={Date3} />
+      <Stack.Screen name='36Questions'>
+        {() => (
+          <CallScreen
+            messages={[
+              "This is a casual conversation",
+              "Get comfortable",
+              "And turn on Puffin",
+            ]}
+            guidingQuestions={["Can you tell me more?"]}
+          />
+        )}
+      </Stack.Screen>
+      <Stack.Screen name='Sex & Intimacy'>
+        {() => (
+          <CallScreen
+            messages={[
+              "Find a romantic setting",
+              "Get comfortable",
+              "And turn on Puffin",
+            ]}
+            guidingQuestions={[
+              "Can you tell me more?",
+              "Do you like it more like this or like that?",
+              "Yes, AND...",
+              "What does that mean?",
+            ]}
+          />
+        )}
+      </Stack.Screen>
+      <Stack.Screen name='WouldYouRather'>
+        {() => (
+          <CallScreen
+            messages={[
+              "This is a casual game",
+              "Ask puffin to change up the prompt whenever",
+              "See if you can do it in real life",
+            ]}
+            guidingQuestions={[]}
+          />
+        )}
+      </Stack.Screen>
     </Stack.Navigator>
   );
 }

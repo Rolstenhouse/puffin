@@ -13,6 +13,16 @@ import React, { useEffect, useState } from "react";
 import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { StackedLogo } from "../components/StackedLogo";
+import styled from "styled-components/native";
+
+const ContainerView = styled.View`
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px;
+  padding-top: 60px;
+  background-color: #faf3ea;
+`;
 
 type BentoItemProps = {
   title: string;
@@ -65,7 +75,7 @@ export default function HomeScreen({}) {
 
   return (
     <View>
-      <ScrollView>
+      <ScrollView style={styles.container}>
         <BentoItem
           title='36 questions to fall in love'
           description='Loved by 10000+ couples'
@@ -90,16 +100,9 @@ export default function HomeScreen({}) {
           bottomLeft={"Est. 30 min"}
           bottomRight={"Not started"}
           onPress={() =>
-            navigation.navigate("Date3", { headerTitle: "Date 3" })
-          }
-        />
-        <BentoItem
-          title='Create your own'
-          description='Puffin is a blank slate, you set the terms.'
-          bottomLeft={"Est. ?"}
-          bottomRight={"Not started"}
-          onPress={() =>
-            navigation.navigate("Date3", { headerTitle: "Date 3" })
+            navigation.navigate("WouldYouRather", {
+              headerTitle: "Would you rather?",
+            })
           }
         />
         <StackedLogo />
@@ -116,20 +119,26 @@ const styles = StyleSheet.create({
     margin: 10,
     height: 140,
     borderRadius: 10,
-    borderWidth: 1,
-    borderColor: "#000",
+    borderWidth: 0.2,
+    borderColor: "#0a3924",
+    shadowColor: "#000",
   },
   bentoBoxTitle: {
     fontSize: 20,
-    color: "#000",
+    color: "#0a3924",
     fontFamily: "Inter-Black",
   },
   bentoBoxDescription: {
     fontSize: 12,
-    color: "#000",
+    color: "#0a3924",
   },
   title: {
     fontSize: 20,
     fontFamily: "Inter-Black",
+  },
+  container: {
+    paddingTop: 80,
+    backgroundColor: "#faf3ea",
+    height: "100%",
   },
 });

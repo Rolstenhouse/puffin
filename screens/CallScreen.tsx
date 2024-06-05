@@ -11,11 +11,12 @@ import Daily, {
   DailyParticipantsObject,
 } from "@daily-co/react-native-daily-js";
 import { StackedLogo } from "../components/StackedLogo";
+import BigButton from "../components/BigButton";
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#faf3ea",
     padding: 10,
   },
   title: {
@@ -52,7 +53,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     borderWidth: 1,
-    borderColor: "#000",
+    borderColor: "#0a3924",
     borderRadius: 100,
     width: 100,
     height: 100,
@@ -73,7 +74,15 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function Date3() {
+type CallScreenProps = {
+  messages: string[];
+  guidingQuestions: string[];
+};
+
+export default function CallScreen({
+  messages,
+  guidingQuestions,
+}: CallScreenProps) {
   type CallStateOptions = "waiting" | "connecting" | "active" | "ended";
   const [call, setCall] = useState<null | DailyCall>();
   const [callState, setCallState] = useState<CallStateOptions>("waiting");
@@ -82,10 +91,9 @@ export default function Date3() {
 
   const [localParticipantId, setLocalParticipantId] = useState<string>();
 
-  const fade1 = useRef(new Animated.Value(0)).current;
-  const fade2 = useRef(new Animated.Value(0)).current;
-  const fade3 = useRef(new Animated.Value(0)).current;
-  const fade4 = useRef(new Animated.Value(0)).current;
+  const fades = Array(messages.length + 1)
+    .fill(0)
+    .map(() => useRef(new Animated.Value(0)).current);
 
   const voice = useRef(new Animated.Value(1)).current;
 
@@ -109,40 +117,17 @@ export default function Date3() {
     ).start();
   }, []);
 
-  useEffect(() => {
-    Animated.timing(fade1, {
-      toValue: 1,
-      duration: 1500,
-      useNativeDriver: true,
-    }).start();
-  }, [fade1]);
-  useEffect(() => {
-    setTimeout(() => {
-      Animated.timing(fade2, {
-        toValue: 1,
-        duration: 1500,
-        useNativeDriver: true,
-      }).start();
-    }, 500);
-  }, [fade2]);
-  useEffect(() => {
-    setTimeout(() => {
-      Animated.timing(fade3, {
-        toValue: 1,
-        duration: 1500,
-        useNativeDriver: true,
-      }).start();
-    }, 1000);
-  }, [fade3]);
-  useEffect(() => {
-    setTimeout(() => {
-      Animated.timing(fade4, {
-        toValue: 1,
-        duration: 1500,
-        useNativeDriver: true,
-      }).start();
-    }, 1500);
-  }, [fade4]);
+  fades.forEach((fade, index) => {
+    useEffect(() => {
+      setTimeout(() => {
+        Animated.timing(fade, {
+          toValue: 1,
+          duration: 1500,
+          useNativeDriver: true,
+        }).start();
+      }, 500 * index);
+    }, [fade]);
+  });
 
   const handleStart = async () => {
     const data = await fetch(
@@ -215,25 +200,17 @@ export default function Date3() {
       >
         {callState === "waiting" || callState === "connecting" ? (
           <>
-            <Animated.View style={{ opacity: fade1 }}>
-              <Text style={styles.title}>Find a romantic setting</Text>
-            </Animated.View>
-            <Animated.View style={{ opacity: fade2 }}>
-              <Text style={styles.title}>Get comfortable</Text>
-            </Animated.View>
-            <Animated.View style={{ opacity: fade3 }}>
-              <Text style={styles.title}>And turn on Puffin</Text>
-            </Animated.View>
-            <Animated.View style={{ opacity: fade4 }}>
-              <TouchableOpacity
-                style={styles.button}
+            {messages.map((message, index) => (
+              <Animated.View key={index} style={{ opacity: fades[index] }}>
+                <Text style={styles.title}>{message}</Text>
+              </Animated.View>
+            ))}
+            <Animated.View style={{ opacity: fades[messages.length] }}>
+              <BigButton
                 disabled={callState === "connecting"}
                 onPress={handleStart}
-              >
-                <Text style={styles.title}>
-                  {callState === "waiting" ? "Get Started" : "Connecting"}
-                </Text>
-              </TouchableOpacity>
+                text={callState === "waiting" ? "Get Started" : "Connecting"}
+              ></BigButton>
             </Animated.View>
           </>
         ) : (
@@ -248,33 +225,20 @@ export default function Date3() {
                 <Text style={styles.transcript}>{partialTranscript}</Text>
               </View>
             </View>
-            <View>
-              <Text style={styles.smallTitle}>Helpful questions</Text>
-              <Text>Can you tell me more?</Text>
-              <Text>Do you like it more like this or like that?</Text>
-              <Text>Yes, AND ...</Text>
-              <Text>What does that mean?</Text>
-            </View>
+            {guidingQuestions?.length > 0 && (
+              <View>
+                <Text style={styles.smallTitle}>Helpful questions</Text>
+                {guidingQuestions.map((question, index) => (
+                  <Text key={index}>{question}</Text>
+                ))}
+              </View>
+            )}
             <TouchableOpacity style={styles.button} onPress={handleEnd}>
               <Text style={styles.title}>End call</Text>
             </TouchableOpacity>
           </>
         )}
       </View>
-      {/* <View style={styles.disclaimerContainer}>
-        <Text style={styles.smallTitle}>About puffin</Text>
-        <Text>
-          Puffin is an AI tool that asks you questions and helps navigate the
-          conversation.
-        </Text>
-        <Text>
-          Diving deeper, interrupting when necessary, or just asking questions.
-        </Text>
-        <Text>
-          Puffin is here to help you grow closer to your partner. Our goal is to
-          get you to leave this app as soon as possible.
-        </Text>
-      </View> */}
     </View>
   );
 }
