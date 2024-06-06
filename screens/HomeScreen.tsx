@@ -86,7 +86,7 @@ export default function HomeScreen({}) {
           }
         />
         <BentoItem
-          title='Discussing sex and intimacy'
+          title='Discussing sex & intimacy'
           description='Loved by 100+ couples'
           bottomLeft={"Est. 3 hours"}
           bottomRight={"Not started"}
@@ -95,13 +95,22 @@ export default function HomeScreen({}) {
           }
         />
         <BentoItem
-          title='Games: Would you rather?'
+          title='Finances & Money'
+          description='Loved by 1000 couples'
+          bottomLeft={"Est. 3 hours"}
+          bottomRight={"Not started"}
+          onPress={() =>
+            navigation.navigate("Finances & Money", { headerTitle: "Date 3" })
+          }
+        />
+        <BentoItem
+          title='Bring your own'
           description='Loved by 1000+ couples'
           bottomLeft={"Est. 30 min"}
           bottomRight={"Not started"}
           onPress={() =>
-            navigation.navigate("WouldYouRather", {
-              headerTitle: "Would you rather?",
+            navigation.navigate("Bring your own", {
+              headerTitle: "Bring your own",
             })
           }
         />

@@ -15,15 +15,33 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.rolstenhouse.puffin",
       "infoPlist": {
-        "UIBackgroundModes": ["voip"]
-      }
+        "UIBackgroundModes": [
+          "voip"
+        ]
+      },
+      "bitcode": false
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FAF3EA"
       },
-      "package": "com.rolstenhouse.puffin"
+      "package": "com.rolstenhouse.puffin",
+      "permissions": [
+        "android.permission.ACCESS_NETWORK_STATE",
+        "android.permission.BLUETOOTH",
+        "android.permission.CAMERA",
+        "android.permission.INTERNET",
+        "android.permission.MODIFY_AUDIO_SETTINGS",
+        "android.permission.RECORD_AUDIO",
+        "android.permission.SYSTEM_ALERT_WINDOW",
+        "android.permission.WAKE_LOCK",
+        "android.permission.FOREGROUND_SERVICE",
+        "android.permission.FOREGROUND_SERVICE_CAMERA",
+        "android.permission.FOREGROUND_SERVICE_MICROPHONE",
+        "android.permission.FOREGROUND_SERVICE_MEDIA_PROJECTION",
+        "android.permission.POST_NOTIFICATIONS"
+      ]
     },
     "plugins": [
       "@config-plugins/react-native-webrtc",
@@ -42,12 +60,19 @@
       [
         "expo-font",
         {
-          "fonts": ["./assets/fonts/Inter-Black.otf"]
+          "fonts": [
+            "./assets/fonts/Inter-Black.otf"
+          ]
         }
       ]
     ],
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "45811e3a-7abd-46fb-8463-d800bc88a031"
+      }
     }
   }
 }

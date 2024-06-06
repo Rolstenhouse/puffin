@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 20,
     fontFamily: "Inter-Black",
+    textAlign: "center",
   },
   smallTitle: {
     fontSize: 16,
@@ -77,11 +78,13 @@ const styles = StyleSheet.create({
 type CallScreenProps = {
   messages: string[];
   guidingQuestions: string[];
+  prompt_id?: string;
 };
 
 export default function CallScreen({
   messages,
   guidingQuestions,
+  prompt_id,
 }: CallScreenProps) {
   type CallStateOptions = "waiting" | "connecting" | "active" | "ended";
   const [call, setCall] = useState<null | DailyCall>();
@@ -131,7 +134,7 @@ export default function CallScreen({
 
   const handleStart = async () => {
     const data = await fetch(
-      "https://snail-informed-daily.ngrok-free.app" + "/startRoom"
+      `${process.env.EXPO_PUBLIC_API_URL}/startRoom?prompt_id=${prompt_id}`
     );
     const json = await data.json();
     const url = json.url;

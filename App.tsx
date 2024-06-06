@@ -73,6 +73,7 @@ function MainAppNavigator() {
               "And turn on Puffin",
             ]}
             guidingQuestions={["Can you tell me more?"]}
+            prompt_id='QUESTIONS_36_PROMPT_ID'
           />
         )}
       </Stack.Screen>
@@ -90,18 +91,33 @@ function MainAppNavigator() {
               "Yes, AND...",
               "What does that mean?",
             ]}
+            prompt_id='RELATIONSHIP_PROMPT'
           />
         )}
       </Stack.Screen>
-      <Stack.Screen name='WouldYouRather'>
+      <Stack.Screen name='Finances & Money'>
         {() => (
           <CallScreen
             messages={[
-              "This is a casual game",
+              "Secure the bag",
+              "Align your financial goals",
+              "Let puffin guide you",
+            ]}
+            guidingQuestions={[]}
+            prompt_id='FINANCE_PROMPT'
+          />
+        )}
+      </Stack.Screen>
+      <Stack.Screen name='Bring your own'>
+        {() => (
+          <CallScreen
+            messages={[
+              "Talk to puffin",
               "Ask puffin to change up the prompt whenever",
               "See if you can do it in real life",
             ]}
             guidingQuestions={[]}
+            prompt_id='GENERIC_PROMPT'
           />
         )}
       </Stack.Screen>
