@@ -139,7 +139,7 @@ export default function App() {
   }, []);
   return (
     <NavigationContainer>
-      {session && session?.user?.user_metadata?.name ? (
+      {!session && session?.user?.user_metadata?.name ? (
         <MainAppNavigator />
       ) : (
         <OnboardingNavigator />

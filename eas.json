@@ -15,7 +15,13 @@
         "EXPO_PUBLIC_API_URL": "https://puffinapp-backend.fly.dev"
       }
     },
-    "production": {}
+    "production": {
+      "env": {
+        "EXPO_PUBLIC_VAPI_ASSISTANT_ID": "49ae67a8-9d0f-4159-8919-87abae79fc12",
+        "EXPO_PUBLIC_VAPI_PUBLIC_KEY": "d0970b09-1ed9-43b0-9143-f14f754aedfe",
+        "EXPO_PUBLIC_API_URL": "https://puffinapp-backend.fly.dev"
+      }
+    }
   },
   "submit": {
     "production": {}

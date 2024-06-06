@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { View, Text, TextInput, Button } from "react-native";
+import { View, Text, ScrollView, TextInput, Button } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
 import { supabase } from "../../lib/supabase";
@@ -82,22 +82,30 @@ export default function OnboardingScreen2({ navigation }: Props) {
   return (
     <OnboardingView>
       <StackedLogo />
-      <View>
-        <Label>Your name</Label>
-        <Input
-          value={name}
-          onChangeText={(e) => {
-            setName(e);
-            setNameError("");
-          }}
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <View>
+          <Label>Your name</Label>
+          <Input
+            value={name}
+            onChangeText={(e) => {
+              setName(e);
+              setNameError("");
+            }}
+          />
+          {nameError && <Error>{nameError}</Error>}
+        </View>
+        <BigButton
+          text={"Confirm"}
+          onPress={handleConfirm}
+          disabled={!name || !!nameError}
         />
-        {nameError && <Error>{nameError}</Error>}
-      </View>
-      <BigButton
-        text={"Confirm"}
-        onPress={handleConfirm}
-        disabled={!name || !!nameError}
-      />
+      </ScrollView>
     </OnboardingView>
   );
 }

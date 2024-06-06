@@ -1,5 +1,13 @@
 import React from "react";
-import { View, Text, TextInput, Button, Pressable } from "react-native";
+import {
+  View,
+  KeyboardAvoidingView,
+  Text,
+  TextInput,
+  Button,
+  Pressable,
+  ScrollView,
+} from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
 import { supabase } from "../../lib/supabase";
@@ -7,7 +15,7 @@ import styled from "styled-components/native";
 import BigButton from "../../components/BigButton";
 import { StackedLogo } from "../../components/StackedLogo";
 
-const OnboardingView = styled.View`
+const OnboardingView = styled.KeyboardAvoidingView`
   flex: 1;
   align-items: center;
   justify-content: space-between;
@@ -156,59 +164,71 @@ export default function OnboardingScreen2({ navigation }: Props) {
   return (
     <OnboardingView>
       <StackedLogo />
-      <View>
-        {!waitingForOTP ? (
-          <View>
-            <Label>Phone</Label>
+      <ScrollView
+        contentContainerStyle={{
+          flexGrow: 1,
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <View>
+          {!waitingForOTP ? (
+            <View>
+              <Label>Phone</Label>
 
-            <Input
-              value={phone}
-              onChangeText={handlePhoneChange}
-              keyboardType='phone-pad'
-              placeholder='(123) 456-7890'
-              maxLength={14} // Maximum length for formatted phone number
+              <Input
+                value={phone}
+                onChangeText={handlePhoneChange}
+                keyboardType='phone-pad'
+                placeholder='(123) 456-7890'
+                maxLength={14} // Maximum length for formatted phone number
+              />
+
+              {phoneError && <Error>{phoneError}</Error>}
+            </View>
+          ) : (
+            <View style={{ alignItems: "center" }}>
+              <Label>Your 6-digit code</Label>
+              <Input
+                onChangeText={(e) => {
+                  setOTP(e.slice(0, 6));
+                  setOTPError("");
+                }}
+                value={otp}
+                maxLength={6}
+                width='90px'
+                center
+              />
+              {otpError ? (
+                <>
+                  <Error>{otpError}</Error>
+                  <Pressable onPress={handleResendOTP}>
+                    {({ pressed }) => (
+                      <Link pressed={pressed}>Resend code</Link>
+                    )}
+                  </Pressable>
+                </>
+              ) : null}
+            </View>
+          )}
+        </View>
+
+        <View style={{ marginBottom: 20 }}>
+          {!waitingForOTP ? (
+            <BigButton
+              text={"Create Account"}
+              onPress={handleLogin}
+              disabled={!phone || !!phoneError}
             />
-
-            {phoneError && <Error>{phoneError}</Error>}
-          </View>
-        ) : (
-          <View style={{ alignItems: "center" }}>
-            <Label>Your 6-digit code</Label>
-            <Input
-              onChangeText={(e) => {
-                setOTP(e.slice(0, 6));
-                setOTPError("");
-              }}
-              value={otp}
-              maxLength={6}
-              width='90px'
-              center
+          ) : (
+            <BigButton
+              text={"Confirm"}
+              disabled={!otp || !!otpError}
+              onPress={verifyOTP}
             />
-            {otpError ? (
-              <>
-                <Error>{otpError}</Error>
-                <Pressable onPress={handleResendOTP}>
-                  {({ pressed }) => <Link pressed={pressed}>Resend code</Link>}
-                </Pressable>
-              </>
-            ) : null}
-          </View>
-        )}
-      </View>
-
-      {!waitingForOTP ? (
-        <BigButton
-          text={"Create Account"}
-          onPress={handleLogin}
-          disabled={!phone || !!phoneError}
-        />
-      ) : (
-        <BigButton
-          text={"Confirm"}
-          disabled={!otp || !!otpError}
-          onPress={verifyOTP}
-        />
-      )}
+          )}
+        </View>
+      </ScrollView>
     </OnboardingView>
   );
 }
