@@ -1,5 +1,13 @@
 import React, { useEffect } from "react";
-import { View, Text, ScrollView, TextInput, Button } from "react-native";
+import {
+  View,
+  Text,
+  ScrollView,
+  TextInput,
+  Button,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
 import { supabase } from "../../lib/supabase";
@@ -7,12 +15,11 @@ import styled from "styled-components/native";
 import BigButton from "../../components/BigButton";
 import { StackedLogo } from "../../components/StackedLogo";
 
-const OnboardingView = styled.View`
+const OnboardingView = styled.KeyboardAvoidingView`
   flex: 1;
   align-items: center;
   justify-content: space-between;
   padding: 20px;
-  padding-top: 60px;
   background-color: #faf3ea;
 `;
 
@@ -80,32 +87,24 @@ export default function OnboardingScreen2({ navigation }: Props) {
   };
 
   return (
-    <OnboardingView>
+    <OnboardingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
       <StackedLogo />
-      <ScrollView
-        contentContainerStyle={{
-          flexGrow: 1,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <View>
-          <Label>Your name</Label>
-          <Input
-            value={name}
-            onChangeText={(e) => {
-              setName(e);
-              setNameError("");
-            }}
-          />
-          {nameError && <Error>{nameError}</Error>}
-        </View>
-        <BigButton
-          text={"Confirm"}
-          onPress={handleConfirm}
-          disabled={!name || !!nameError}
+      <View>
+        <Label>Your name</Label>
+        <Input
+          value={name}
+          onChangeText={(e) => {
+            setName(e);
+            setNameError("");
+          }}
         />
-      </ScrollView>
+        {nameError && <Error>{nameError}</Error>}
+      </View>
+      <BigButton
+        text={"Confirm"}
+        onPress={handleConfirm}
+        disabled={!name || !!nameError}
+      />
     </OnboardingView>
   );
 }

@@ -73,7 +73,7 @@ function MainAppNavigator() {
               "And turn on Puffin",
             ]}
             guidingQuestions={["Can you tell me more?"]}
-            prompt_id='QUESTIONS_36_PROMPT_ID'
+            prompt_id='QUESTIONS_36_PROMPT'
           />
         )}
       </Stack.Screen>
@@ -139,7 +139,7 @@ export default function App() {
   }, []);
   return (
     <NavigationContainer>
-      {!session && session?.user?.user_metadata?.name ? (
+      {session && session?.user?.user_metadata?.name ? (
         <MainAppNavigator />
       ) : (
         <OnboardingNavigator />

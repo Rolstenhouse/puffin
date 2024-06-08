@@ -73,4 +73,6 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
-# @end expo-cli
+# @end expo-clibuild-1717799029031.ipa
+*.ipa
+.env

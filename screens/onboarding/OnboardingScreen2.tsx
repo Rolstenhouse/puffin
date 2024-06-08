@@ -7,6 +7,8 @@ import {
   Button,
   Pressable,
   ScrollView,
+  Keyboard,
+  Platform,
 } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { RouteProp } from "@react-navigation/native";
@@ -20,7 +22,6 @@ const OnboardingView = styled.KeyboardAvoidingView`
   align-items: center;
   justify-content: space-between;
   padding: 20px;
-  padding-top: 60px;
   background-color: #faf3ea;
 `;
 
@@ -114,6 +115,7 @@ export default function OnboardingScreen2({ navigation }: Props) {
   };
 
   const verifyOTP = async () => {
+    Keyboard.dismiss();
     const { data, error } = await supabase.auth.verifyOtp({
       phone: getE164Format(),
       token: otp,
@@ -128,6 +130,7 @@ export default function OnboardingScreen2({ navigation }: Props) {
   };
 
   const handleLogin = async () => {
+    Keyboard.dismiss();
     const { data, error } = await supabase.auth.signInWithOtp({
       phone: getE164Format(),
       options: {
@@ -162,73 +165,67 @@ export default function OnboardingScreen2({ navigation }: Props) {
   };
 
   return (
-    <OnboardingView>
+    <OnboardingView behavior={Platform.OS === "ios" ? "padding" : "height"}>
       <StackedLogo />
-      <ScrollView
-        contentContainerStyle={{
-          flexGrow: 1,
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <View>
-          {!waitingForOTP ? (
-            <View>
-              <Label>Phone</Label>
+      <View>
+        {!waitingForOTP ? (
+          <View>
+            <Label>Phone</Label>
 
-              <Input
-                value={phone}
-                onChangeText={handlePhoneChange}
-                keyboardType='phone-pad'
-                placeholder='(123) 456-7890'
-                maxLength={14} // Maximum length for formatted phone number
-              />
-
-              {phoneError && <Error>{phoneError}</Error>}
-            </View>
-          ) : (
-            <View style={{ alignItems: "center" }}>
-              <Label>Your 6-digit code</Label>
-              <Input
-                onChangeText={(e) => {
-                  setOTP(e.slice(0, 6));
-                  setOTPError("");
-                }}
-                value={otp}
-                maxLength={6}
-                width='90px'
-                center
-              />
-              {otpError ? (
-                <>
-                  <Error>{otpError}</Error>
-                  <Pressable onPress={handleResendOTP}>
-                    {({ pressed }) => (
-                      <Link pressed={pressed}>Resend code</Link>
-                    )}
-                  </Pressable>
-                </>
-              ) : null}
-            </View>
-          )}
-        </View>
-
-        <View style={{ marginBottom: 20 }}>
-          {!waitingForOTP ? (
-            <BigButton
-              text={"Create Account"}
-              onPress={handleLogin}
-              disabled={!phone || !!phoneError}
+            <Input
+              value={phone}
+              onChangeText={handlePhoneChange}
+              keyboardType='phone-pad'
+              placeholder='(123) 456-7890'
+              maxLength={14} // Maximum length for formatted phone number
+              returnKeyType='done'
+              onSubmitEditing={handleLogin}
             />
-          ) : (
-            <BigButton
-              text={"Confirm"}
-              disabled={!otp || !!otpError}
-              onPress={verifyOTP}
+
+            {phoneError && <Error>{phoneError}</Error>}
+          </View>
+        ) : (
+          <View style={{ alignItems: "center" }}>
+            <Label>Your 6-digit code</Label>
+            <Input
+              onChangeText={(e) => {
+                setOTP(e.slice(0, 6));
+                setOTPError("");
+              }}
+              value={otp}
+              maxLength={6}
+              width='90px'
+              center
+              returnKeyType='done'
+              onSubmitEditing={verifyOTP}
             />
-          )}
-        </View>
-      </ScrollView>
+            {otpError ? (
+              <>
+                <Error>{otpError}</Error>
+                <Pressable onPress={handleResendOTP}>
+                  {({ pressed }) => <Link pressed={pressed}>Resend code</Link>}
+                </Pressable>
+              </>
+            ) : null}
+          </View>
+        )}
+      </View>
+
+      <View style={{ marginBottom: 20 }}>
+        {!waitingForOTP ? (
+          <BigButton
+            text={"Create Account"}
+            onPress={handleLogin}
+            disabled={!phone || !!phoneError}
+          />
+        ) : (
+          <BigButton
+            text={"Confirm"}
+            disabled={!otp || !!otpError}
+            onPress={verifyOTP}
+          />
+        )}
+      </View>
     </OnboardingView>
   );
 }

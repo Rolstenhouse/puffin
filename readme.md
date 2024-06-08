@@ -8,9 +8,18 @@ eas device:create
 `update version in ios/info.plist`
 CFBundleVersion ->
 CFBundleShortVersionString ->
-eas build --platform ios
 
+## cloud
+
+eas build --platform ios
 eas submit -p ios
+
+## local
+
+eas build --platform ios --local
+eas submit -p ios --path=<path>
+
+example path ./build-1717799029031.ipa
 
 ### Go to app in the app store
 

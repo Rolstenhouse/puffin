@@ -14,6 +14,7 @@ import { NavigationContainer, useNavigation } from "@react-navigation/native";
 import { useFonts } from "expo-font";
 import { StackedLogo } from "../components/StackedLogo";
 import styled from "styled-components/native";
+import { supabase } from "../lib/supabase";
 
 const ContainerView = styled.View`
   flex: 1;
@@ -22,6 +23,12 @@ const ContainerView = styled.View`
   padding: 0px;
   padding-top: 60px;
   background-color: #faf3ea;
+`;
+
+const Title = styled.Text`
+  font-size: 32px;
+  font-weight: 800;
+  padding-left: 10px;
 `;
 
 type BentoItemProps = {
@@ -61,6 +68,15 @@ const BentoItem = ({
 
 export default function HomeScreen({}) {
   const navigation = useNavigation();
+  const [username, setUsername] = useState("");
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user?.user_metadata?.name) {
+        setUsername(session?.user?.user_metadata?.name);
+      }
+    });
+  }, []);
   let [fontsLoaded] = useFonts({
     "Inter-Black": require("../assets/fonts/Inter-Black.otf"),
   });
@@ -76,6 +92,7 @@ export default function HomeScreen({}) {
   return (
     <View>
       <ScrollView style={styles.container}>
+        <Title>{`Hey there, ${username}!`}</Title>
         <BentoItem
           title='36 questions to fall in love'
           description='Loved by 10000+ couples'
